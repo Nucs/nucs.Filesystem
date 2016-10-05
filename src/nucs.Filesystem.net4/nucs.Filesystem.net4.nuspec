@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>$author$</authors>
+    <owners>$author$</owners>
+    <licenseUrl>https://opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl>https://github.com/Nucs/nucs.Filesystem</projectUrl>
+    <requireLicenseAcceptance>true</requireLicenseAcceptance>
+    <description>Ease the use with the Windows Filesystem, monitor directories and generate random location with random name.</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Copyright 2016</copyright>
+    <tags>nucs nlib filesystem path directory file</tags>
+  </metadata>
+</package>
