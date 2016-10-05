@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>40e5a3dd-4677-4c29-aaaf-9160b901da7c</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>nucs.Filesystem.shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Distribution\AIFileNameGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Distribution\DistributerBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Distribution\DistributionManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Distribution\Methods\GeneralLocationsDistributer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Distribution\Methods\ProgramFilesDistributer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Distribution\Methods\RootDriveDistributer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Distribution\Methods\UniquePathDistributer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Distribution\Methods\WindowsDistributer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Distribution\SpecificDirectoryDistributer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Distribution\SubdirectoriesDistributer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enumerators\ActiveProcessFiles.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enumerators\AutorunServiceFiles.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Enumerators\RecentFiles.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileCall.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)FileInfoExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Monitoring\AppMonitor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Monitoring\Monitors.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Monitoring\ProcessCrashMonitor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Monitoring\ProcessRestartMonitor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Monitoring\Windows\DriveMonitor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Monitoring\Windows\ExplorerMonitor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Native\Files\DriveInfoHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Native\Files\FileHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Native\Files\FileSearch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Native\Files\UniquePath.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Native\UniquePcId.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Paths.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)SystemCore\Enum\EnumExtension.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Zip\ResourceHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Zip\ZipResource.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Zip\ZipStorer.cs" />
+  </ItemGroup>
+</Project>

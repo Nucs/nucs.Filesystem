@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{AD7976A3-53B3-473A-9E1E-27A3E125E46B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>nucs.Filesystem</RootNamespace>
+    <AssemblyName>nucs.Filesystem.net462</AssemblyName>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;NET45;NET462;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;NET45;NET462;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Management" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <COMReference Include="IWshRuntimeLibrary">
+      <Guid>{F935DC20-1CF0-11D0-ADB9-00C04FD58A0B}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="SHDocVw">
+      <Guid>{EAB22AC0-30C1-11CF-A7EB-0000C05BAE0B}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>1</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Shell32">
+      <Guid>{50A7E9B0-70EF-11D1-B75A-00A0C90564FE}</Guid>
+      <VersionMajor>1</VersionMajor>
+      <VersionMinor>0</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Inline\AggregatableObject.cs" />
+    <Compile Include="Inline\ArrayQueue.cs" />
+    <Compile Include="Inline\Boolean\Bool.cs" />
+    <Compile Include="Inline\Boolean\BooleanTools.cs" />
+    <Compile Include="Inline\Cache.cs" />
+    <Compile Include="Inline\Collector.cs" />
+    <Compile Include="Inline\Extensions\ArrayExtensions.cs" />
+    <Compile Include="Inline\Extensions\IEnumerableExtensions.cs" />
+    <Compile Include="Inline\Network\HttpUtilities.cs" />
+    <Compile Include="Inline\ICollectorAdder.cs" />
+    <Compile Include="Inline\ImprovedList.cs" />
+    <Compile Include="Inline\ISizeComparable.cs" />
+    <Compile Include="Inline\Math.cs" />
+    <Compile Include="Inline\Monitoring\IMonitor.cs" />
+    <Compile Include="Inline\Monitoring\IMonitorSingle.cs" />
+    <Compile Include="Inline\Monitoring\MonitorBase.cs" />
+    <Compile Include="Inline\Monitoring\MonitorSingleBase.cs" />
+    <Compile Include="Inline\Monitoring\Monitors\ClipboardStringMonitor.cs" />
+    <Compile Include="Inline\Monitoring\Monitors\ForegroundWindowMonitor.cs" />
+    <Compile Include="Inline\Monitoring\nucslib.Inline\DynamicComparer.cs" />
+    <Compile Include="Inline\Net4Support.cs" />
+    <Compile Include="Inline\Processes\ProcessFinder.cs" />
+    <Compile Include="Inline\Processes\ProcessInfo.cs" />
+    <Compile Include="Inline\Processes\Processy.cs" />
+    <Compile Include="Inline\Processes\WindowFinder.cs" />
+    <Compile Include="Inline\Randomizer.cs" />
+    <Compile Include="Inline\SingleRun.cs" />
+    <Compile Include="Inline\StringGenerator.cs" />
+    <Compile Include="Inline\String\ManipulatedString.cs" />
+    <Compile Include="Inline\String\Regex\CommonRegex.cs" />
+    <Compile Include="Inline\String\Regex\VerbalExpressions.cs" />
+    <Compile Include="Inline\String\StringTools.cs" />
+    <Compile Include="Inline\String\StringToOthers.cs" />
+    <Compile Include="Inline\UriExtensions.cs" />
+    <Compile Include="Inline\Version.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="..\nucs.Filesystem.shared\nucs.Filesystem.shared.projitems" Label="Shared" />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
