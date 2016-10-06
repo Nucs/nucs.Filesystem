@@ -5,19 +5,19 @@ From monitoring to easier coding.
 
 #### Capabilities
 ###### Filesystem Namespace
-	- `class UniquePcId` - generates a unique GUID for this PC
-	- `UniquePath` - will generate a unique directory per PC (determined by hardware via UniquePcId).
-	- `FileSearch` - static methods to search files with patterns.
-	- `FileInfoExtensions`
-	- `FileInfo HandlePossibleDuplicate(this FileInfo)`- checks if the given file already exist, if yes - will add `(n)` to the file name to avoid duplicate name - just like windows does.
-	- `Paths` - extension to `System.IO.Path`.
-		- `string NormalizePath(string path)` - normalizes path for storage or comparison
-		- `DirectoryInfo WindowsDirectory` - returns windows directory.
-		- `FileInfo ExecutingExe` - returns the path to entry exe
-		- `FileInfo ExecutingDirectory `- returns the path to entry exe's directory
-		- `FileInfo RandomLocation` - generates via `FileNameGenerator` a random `FileInfo`
-		-  `bool IsDirectoryWritable(this DirectoryInfo directory)` - tests directory for writing with current permissions.
-		- `bool CompareTo(this FileSystemInfo fi, FileSystemInfo fi2)` - compares two FileSystemInfo the right way.
+- `class UniquePcId` - generates a unique GUID for this PC
+- `UniquePath` - will generate a unique directory per PC (determined by hardware via UniquePcId).
+- `FileSearch` - static methods to search files with patterns.
+- `FileInfoExtensions`
+- `FileInfo HandlePossibleDuplicate(this FileInfo)`- checks if the given file already exist, if yes - will add `(n)` to the file name to avoid duplicate name - just like windows does.
+- `Paths` - extension to `System.IO.Path`.
+	- `string NormalizePath(string path)` - normalizes path for storage or comparison
+	- `DirectoryInfo WindowsDirectory` - returns windows directory.
+	- `FileInfo ExecutingExe` - returns the path to entry exe
+	- `FileInfo ExecutingDirectory `- returns the path to entry exe's directory
+	- `FileInfo RandomLocation` - generates via `FileNameGenerator` a random `FileInfo`
+	-  `bool IsDirectoryWritable(this DirectoryInfo directory)` - tests directory for writing with current permissions.
+	- `bool CompareTo(this FileSystemInfo fi, FileSystemInfo fi2)` - compares two FileSystemInfo the right way.
      
 ---
 ###### Distribution Namespace
@@ -36,11 +36,11 @@ From monitoring to easier coding.
 ###### Monitoring.Windows Namespace - objects that monitor certain behavior and report changes (such as new drive inserted)
 - `DriveMonitor : MonitorBase<DriveInfo>` -  Monitors (and reports new) drives that are connected with the ability to distinguish between the different drive types:
 	- `DriveMonitor.FileDrive()`- returns all drivers that contain can contain files (e.g. not cdrom).
-	 - `DriveMonitor.FixedDrives()`- returns all hard drives that are connected to the PC (not via usb).
-	 - `DriveMonitor.RemovableDrives()`- returns all storage devices connected via USB (removable).
+	- `DriveMonitor.FixedDrives()`- returns all hard drives that are connected to the PC (not via usb).
+	- `DriveMonitor.RemovableDrives()`- returns all storage devices connected via USB (removable).
 	- `DriveMonitor.AllDrives()`- just all of them.
  
- -- `class ExplorerMonitor : MonitorBase<ExplorerWindowRepresentor>` - Monitors explorer directory browsing (spying style) and reports when directory changes.
+- `class ExplorerMonitor : MonitorBase<ExplorerWindowRepresentor>` - Monitors explorer directory browsing (spying style) and reports when directory changes.
      
 ---
 ###### Monitoring Namespace
