@@ -8,7 +8,7 @@ using nucs.SystemCore.Boolean;
 using nucs.SystemCore.String;
 
 namespace nucs.Filesystem.Distribution {
-    public static class AIFileNameGenerator {
+    public static class FileNameGenerator {
         private static readonly string[] datastorageextensions = {".bin", ".mui", ".ini", ".cfg", ".dll", ".dat", ".iso", ".vcd", ".cue", ".dmp", ".cab"};
         private static readonly string[] winfilenames = {"unins000.dat", "en-GB.bin", "he-IL.bin", "en-GB.dat", "he-IL.dat", "cgi.bin", ".thumbnail"};
 
@@ -37,14 +37,12 @@ namespace nucs.Filesystem.Distribution {
             ".lnk"
         };
 
-
         private static readonly Random rand = new Random();
 
         /// <summary>
-        /// Generates a logical file name based on the location
+        ///       Generates a random logical filename based on the given directory
         /// </summary>
-        /// <param name="base"></param>
-        /// <returns></returns>
+        /// <param name="base">The directory to sample for generation</param>
         public static FileInfo Generate(DirectoryInfo @base) {
             if (@base.Exists == false) { //for nonexisting
                 @base.EnsureDirectoryExists();
@@ -53,18 +51,20 @@ namespace nucs.Filesystem.Distribution {
 
             DirectoryInfo[] dirs;
             FileInfo[] files;
+
             try {
                 dirs = @base.GetDirectories();
                 files = @base.GetFiles();
             } catch (UnauthorizedAccessException) {
                 return null;
             }
-            if (@base.Root.FullName.Equals(@base.FullName)) { //is root dir (c:/) ***************
+
+            if (@base.Root.FullName.Equals(@base.FullName)) { //is root dir (c:/)
                 var fn = winfilenames.TakeRandomNonExisting(@base);
                 return new FileInfo(Path.Combine(@base.FullName, fn));
             }
 
-            if (files.Length == 0 | dirs.Length == 0 && files.Length == 0) { //for empty directory ******************
+            if (files.Length == 0 | dirs.Length == 0 && files.Length == 0) { //for empty directory
                 //take the directory name and parse it into a file
                 var realbase = @base;
                 _invalidname:
@@ -86,13 +86,6 @@ namespace nucs.Filesystem.Distribution {
 
                 return new FileInfo(Path.Combine(realbase.FullName, fn + rand.CoinToss(rand.CoinToss("-") + RandomVersion()) + datastorageextensions.TakeRandom()));
             }
-
-            /*if (files.Length == 0) { //dir with dirs only ****************************************
-                //random files that might look important
-                var fn = emptyfilenames.TakeRandomNonExisting(@base);
-                return new FileInfo(Path.Combine(@base.FullName, fn));
-            }*/
-
 
             //file with number in its end
             if (files.Where(f => f.HasExtension() && blacklisted_extension.Any(ext => ext.Equals(f.Extension)) == false).Where(f => !string.IsNullOrEmpty(f.GetFileNameWithoutExtension())).Any(f => char.IsDigit(f.GetFileNameWithoutExtension().Reverse().First()))) {
@@ -122,7 +115,7 @@ namespace nucs.Filesystem.Distribution {
             }
 
 
-            //based on file with all lowcase letters and extension ********************************
+            //based on file with all lowcase letters and extension
             var potential = files.Where(f => f.GetFileNameWithoutExtension().All(c => char.IsLetter(c) && char.IsLower(c))).OrderBy(f => f.Extension == ".exe").ThenByDescending(f => f.LastAccessTimeUtc).FirstOrDefault();
             if (potential != null) {
                 var favext = FavoriteExtension(files, blacklisted_extension.Concat(potential.Extension.ToEnumerable()).ToArray());
@@ -134,11 +127,11 @@ namespace nucs.Filesystem.Distribution {
             }
         }
 
-        public static string FavoriteExtension(DirectoryInfo dir, params string[] except) {
+        private static string FavoriteExtension(DirectoryInfo dir, params string[] except) {
             return FavoriteExtension(dir.GetFiles(), except);
         }
 
-        public static string FavoriteExtension(IEnumerable<FileInfo> filessample, params string[] except) {
+        private static string FavoriteExtension(IEnumerable<FileInfo> filessample, params string[] except) {
             if (except == null)
                 except = new string[0];
             var files = filessample.ToArray();
@@ -159,15 +152,21 @@ namespace nucs.Filesystem.Distribution {
             return datastorageextensions.Except(except).TakeRandom();
         }
 
-        public static T TakeRandom<T>(this IEnumerable<T> list) {
+        private static T TakeRandom<T>(this IEnumerable<T> list) {
             return TakeRandom(list.ToList());
         }
 
-        public static T TakeRandom<T>(this IList<T> list) {
+        private static T TakeRandom<T>(this IList<T> list) {
             return list[rand.Next(0, list.Count - 1)];
         }
 
-        public static string TakeRandomNonExisting(this IList<string> filenames, DirectoryInfo @base) {
+        /// <summary>
+        ///     Gets random objects that doesnt exist
+        /// </summary>
+        /// <param name="filenames"></param>
+        /// <param name="base"></param>
+        /// <returns></returns>
+        private static string TakeRandomNonExisting(this IList<string> filenames, DirectoryInfo @base) {
             var nonexisting =
                 filenames.Select(f => new FileInfo(Path.Combine(@base.FullName, f)))
                     .Where(fn => fn.Exists == false)
@@ -187,9 +186,10 @@ namespace nucs.Filesystem.Distribution {
                 case 1:
                     return rand.Next(0, 3) + rand.Chance(70, ".") + rand.Next(0, 10);
                 default:
-                    throw new Exception("CHAOS IN THE HOUSE!");
+                    throw new Exception("CHAOS IS IN THE HOUSE!");
             }
         }
+
         #region Inline
         private static string RemoveNumber(this string @this) {
             return new string(@this.ToCharArray().Where(x => !Char.IsNumber(x)).ToArray());
