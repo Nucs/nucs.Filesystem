@@ -9,7 +9,7 @@ From monitoring to easier coding.
 - `UniquePath` - will generate a unique directory per PC (determined by hardware via UniquePcId).
 - `FileSearch` - static methods to search files with patterns.
 - `FileInfoExtensions`
-- `FileInfo HandlePossibleDuplicate(this FileInfo)`- checks if the given file already exist, if yes - will add `(n)` to the file name to avoid duplicate name - just like windows does.
+	- `FileInfo HandlePossibleDuplicate(this FileInfo)`- checks if the given file already exist, if yes - will add `(n)` to the file name to avoid duplicate name - just like windows does.
 - `Paths` - extension to `System.IO.Path`.
 	- `string NormalizePath(string path)` - normalizes path for storage or comparison
 	- `DirectoryInfo WindowsDirectory` - returns windows directory.
