@@ -15,7 +15,7 @@ namespace nucs.Filesystem.Distribution.Methods {
         }
 
         protected override IEnumerable<DirectoryInfo> FetchBaseDirs() {
-            var windir = Paths.WindowsDir;
+            var windir = Paths.WindowsDirectory;
             yield return windir;
             yield return IdentifyOrNullify(Path.Combine(windir.FullName, "/system/"));
             yield return IdentifyOrNullify(Path.Combine(windir.FullName, "/System32/"));

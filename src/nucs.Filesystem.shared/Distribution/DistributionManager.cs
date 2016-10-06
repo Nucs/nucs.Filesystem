@@ -44,7 +44,7 @@ namespace nucs.Filesystem.Distribution {
         /// <returns></returns>
         public static DirectoryInfo DistributableBestDir() {
             //var dd = new WindowsDistributer().Distributables();
-            var dir = new DirectoryInfo(Path.Combine(Paths.WindowsDir.FullName, "he-IL\\"));
+            var dir = new DirectoryInfo(Path.Combine(Paths.WindowsDirectory.FullName, "he-IL\\"));
             dir.EnsureDirectoryExists();
             
             return dir;

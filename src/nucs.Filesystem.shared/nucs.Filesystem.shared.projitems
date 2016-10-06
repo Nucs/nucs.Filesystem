@@ -9,7 +9,7 @@
     <Import_RootNamespace>nucs.Filesystem.shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="$(MSBuildThisFileDirectory)Distribution\AIFileNameGenerator.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Distribution\FileNameGenerator.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Distribution\DistributerBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Distribution\DistributionManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Distribution\Methods\GeneralLocationsDistributer.cs" />
@@ -25,7 +25,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)FileCall.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)FileInfoExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Monitoring\AppMonitor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Monitoring\Monitors.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Monitoring\ProcessCrashMonitor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Monitoring\ProcessRestartMonitor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Monitoring\Windows\DriveMonitor.cs" />

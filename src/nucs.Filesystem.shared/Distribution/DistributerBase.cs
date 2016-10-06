@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -6,7 +7,7 @@ using nucs.Startup.Internal;
 using nucs.SystemCore.Boolean;
 
 namespace nucs.Filesystem.Distribution {
-    public abstract class DistributerBase {
+    public abstract class DistributerBase : IEnumerable<DirectoryInfo>, IEnumerable<FileInfo> {
         public const int RandomNameConstantLength = 10;
         /// <summary>
         ///     Is this distributer provide directories that are static through every computer.
@@ -65,11 +66,29 @@ namespace nucs.Filesystem.Distribution {
         ///     Gets all the directories inwhich distribution can happen.
         /// </summary>
         public abstract IEnumerable<DirectoryInfo> Distributables();
+
         /// <summary>
         ///     Accessiable 
         /// </summary>
         /// <returns></returns>
         protected abstract List<FileInfo> FindDistributed();
 
+        /// <summary>Returns an enumerator that iterates through the collection.</summary>
+        /// <returns>A <see cref="T:System.Collections.Generic.IEnumerator`1" /> that can be used to iterate through the collection.</returns>
+        IEnumerator<FileInfo> IEnumerable<FileInfo>.GetEnumerator() {
+            return ((IEnumerable<FileInfo>) FindDistributed()).GetEnumerator();
+        }
+
+        /// <summary>Returns an enumerator that iterates through the collection.</summary>
+        /// <returns>A <see cref="T:System.Collections.Generic.IEnumerator`1" /> that can be used to iterate through the collection.</returns>
+        IEnumerator<DirectoryInfo> IEnumerable<DirectoryInfo>.GetEnumerator() {
+            return Distributables().GetEnumerator();
+        }
+
+        /// <summary>Returns an enumerator that iterates through a collection.</summary>
+        /// <returns>An <see cref="T:System.Collections.IEnumerator" /> object that can be used to iterate through the collection.</returns>
+        IEnumerator IEnumerable.GetEnumerator() {
+            return ((IEnumerable<DirectoryInfo>)this).GetEnumerator();
+        }
     }
 }

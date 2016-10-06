@@ -12,7 +12,6 @@ namespace nucs.Filesystem.Enumerators {
                 string p = o.GetPropertyValue("PathName").ToString();
                 yield return new FileCall(p);
             }
-        
         }
 
         IEnumerator IEnumerable.GetEnumerator() {

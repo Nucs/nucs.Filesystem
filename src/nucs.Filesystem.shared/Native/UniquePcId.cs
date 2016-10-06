@@ -9,15 +9,13 @@ namespace nucs.Filesystem {
     ///     Generates a 16 byte Unique Identification code of a computer
     ///     Example: 4876-8DB5-EE85-69D3-FE52-8CF7-395D-2EA9
     /// </summary>
-    public class UniquePcId {
-        private volatile static string fingerPrint = string.Empty;
+    public static class UniquePcId {
+        private static volatile string fingerPrint = string.Empty;
 
         /// <summary>
         ///     Creates a randomizer that is fed with unique computer seed. Might delay on first call.
         /// </summary>
-        public static Random NewUniqueRandomizer {
-            get { return new Random(Generate().GetHashCode()); }
-        }
+        public static Random NewUniqueRandomizer => new Random(Generate().GetHashCode());
 
         /// <summary>
         ///     Generates a unique pc identifier with many factors such as bios, cpi, gpu, mac IDs combined.

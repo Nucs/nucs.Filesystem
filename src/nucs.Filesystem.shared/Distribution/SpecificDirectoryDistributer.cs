@@ -11,8 +11,6 @@ namespace nucs.Filesystem.Distribution {
         protected abstract IEnumerable<DirectoryInfo> FetchBaseDirs();
         
         protected override List<FileInfo> FindDistributed() {
-            /*var dirs = FetchBaseDirs();
-            return dirs.SelectMany(dir => dir.GetFiles()).Where(TrojanFile.IsCopy).ToList();*/
             return null;
         }
 

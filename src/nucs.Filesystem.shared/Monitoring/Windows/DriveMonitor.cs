@@ -7,8 +7,6 @@ using nucs.Monitoring;
 
 namespace nucs.Filesystem.Monitoring.Windows {
     public class DriveMonitor : MonitorBase<DriveInfo> {
-
-
         public delegate void DriveInsertedHandler(Guid driveguid, DriveInfo driveinfo);
 
         public static event DriveInsertedHandler DriveInserted;

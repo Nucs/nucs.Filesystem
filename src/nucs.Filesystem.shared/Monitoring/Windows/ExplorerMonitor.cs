@@ -86,8 +86,6 @@ namespace nucs.Filesystem.Monitoring.Windows {
             }
         }
 
-
-
         public ExplorerWindowRepresentor(SHDocVw.InternetExplorer ie, bool bind = false) {
             IE = ie;
             if (bind) Bind();

@@ -36,15 +36,15 @@ namespace nucs.Filesystem {
         /// <summary>
         /// Gives the path to windows dir, most likely to be 'C:/Windows/'
         /// </summary>
-        public static DirectoryInfo WindowsDir => new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.System));
+        public static DirectoryInfo WindowsDirectory => new DirectoryInfo(Environment.GetFolderPath(Environment.SpecialFolder.System));
 
         /// <summary>
-        ///     The exe that has started this process
+        ///     The path to the entry exe.
         /// </summary>
         public static FileInfo ExecutingExe => new FileInfo(Assembly.GetEntryAssembly().Location);
 
         /// <summary>
-        ///     The directory that the executing exe is inside
+        ///     The path to the entry exe's directory.
         /// </summary>
         public static DirectoryInfo ExecutingDirectory => ExecutingExe.Directory;
 
@@ -65,7 +65,7 @@ namespace nucs.Filesystem {
                     while (_randlocdb.ItemsLeft > 0) {
                         var randloc = _randlocdb.TakeRandom();
                         randloc.EnsureDirectoryExists();
-                        var fn = AIFileNameGenerator.Generate(randloc);
+                        var fn = FileNameGenerator.Generate(randloc);
                         if (File.Exists(fn.FullName))
                             continue;
                         try { //attempt writing
@@ -111,7 +111,7 @@ namespace nucs.Filesystem {
 
 
         /// <summary>
-        /// Checks the ability to create and write to a file in the supplied directory.
+        ///     Checks the ability to create and write to a file in the supplied directory.
         /// </summary>
         /// <param name="directory">String representing the directory path to check.</param>
         /// <returns>True if successful; otherwise false.</returns>

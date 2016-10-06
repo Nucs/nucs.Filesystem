@@ -1,4 +1,5 @@
-﻿using System;
+﻿//unused
+/*using System;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -109,7 +110,7 @@ namespace nucs.Filesystem.Monitoring {
         /// </summary>
         /// <param name="foundprocess"></param>
         /// <returns></returns>
-        public Process ProcessProcess(Process foundprocess = null) {
+        private Process ProcessProcess(Process foundprocess = null) {
             Process p = foundprocess;
             try {
                 if (p != null)
@@ -173,4 +174,4 @@ namespace nucs.Filesystem.Monitoring {
 
         #endregion
     }
-}
+}*/

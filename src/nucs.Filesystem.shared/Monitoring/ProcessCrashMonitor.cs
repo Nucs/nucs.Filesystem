@@ -7,6 +7,9 @@ using System.Threading;
 using nucs.Filesystem.Enumerators;
 
 namespace nucs.Filesystem.Monitoring {
+    /// <summary>
+    ///     Monitor a process crashing
+    /// </summary>
     public class ProcessCrashMonitor {
         private string lasttitle = "";
 

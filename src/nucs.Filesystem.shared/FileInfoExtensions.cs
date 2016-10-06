@@ -20,10 +20,6 @@ namespace nucs.Filesystem {
             return new FileInfo(SavePath);
         }
 
-        public static FileInfo AddDuplicatePreventer(this FileInfo @in, int n) {
-            return new FileInfo(Path.Combine(@in.Directory.FullName, $"{@in.Name.Replace(@in.Extension, "")} ({n}){@in.Extension}"));
-        }
-
         /// <summary>
         ///     Combines multiples string into a path.
         /// </summary>

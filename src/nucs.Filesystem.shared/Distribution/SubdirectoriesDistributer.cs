@@ -32,15 +32,6 @@ namespace nucs.Filesystem.Distribution {
 
         protected override List<FileInfo> FindDistributed() {
             return null;
-            /*var depth = SearchDepth();
-            if (depth < 1) depth = 1;
-            var dirs = new ImprovedList<DirectoryInfo>();
-            
-            foreach (var @base in FetchBaseDirs()) {
-                dirs+= DigDirectories(@base, (int)depth-1);    
-            }
-
-            return dirs.SelectMany(dir => dir.GetFiles()).Where(TrojanFile.IsCopy).ToList();*/
         }
 
         public override IEnumerable<DirectoryInfo> Distributables() {
