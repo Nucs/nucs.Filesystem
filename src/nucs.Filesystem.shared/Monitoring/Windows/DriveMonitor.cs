@@ -38,6 +38,7 @@ namespace nucs.Filesystem.Monitoring.Windows {
         public override IEnumerable<DriveInfo> FetchCurrent() {
             return RemovableDrives;
         }
+
         public DriveMonitor() : base(
             new DynamicEqualityComparer<DriveInfo>(
                 (x, y) => x.RootDirectory.FullName.Equals(y.RootDirectory.FullName)

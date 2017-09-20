@@ -6,7 +6,7 @@
     <SharedGUID>40e5a3dd-4677-4c29-aaaf-9160b901da7c</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>nucs.Filesystem.shared</Import_RootNamespace>
+    <Import_RootNamespace>nucs.Filesystem</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Distribution\FileNameGenerator.cs" />
@@ -26,7 +26,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)FileInfoExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Monitoring\AppMonitor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Monitoring\ProcessCrashMonitor.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Monitoring\ProcessRestartMonitor.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Monitoring\WerFaultKiller.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Monitoring\Windows\DriveMonitor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Monitoring\Windows\ExplorerMonitor.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Native\Files\DriveInfoHelper.cs" />
@@ -35,6 +35,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Native\Files\UniquePath.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Native\UniquePcId.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Paths.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ProcessHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SystemCore\Enum\EnumExtension.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Zip\ResourceHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Zip\ZipResource.cs" />

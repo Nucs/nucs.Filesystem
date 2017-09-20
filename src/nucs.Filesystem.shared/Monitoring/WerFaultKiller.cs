@@ -51,7 +51,7 @@ namespace nucs.Filesystem.Monitoring {
                 Thread.Sleep(1500);
                 var l = Process.GetProcesses().Where(pp => pp.ProcessName.Contains("WerFault")).ToList();
                 if (l.Count > 0) {
-                    foreach (var op in l) {
+                    /*foreach (var op in l) {
                         Console.WriteLine(op.MainWindowTitle);
                         foreach (PropertyDescriptor descriptor in TypeDescriptor.GetProperties(op)) {
                             try {
@@ -61,11 +61,12 @@ namespace nucs.Filesystem.Monitoring {
                                 Console.WriteLine("{0}={1}", name, value);
                             } catch {}
                         }
-                    }
+                    }*/
                     Thread.Sleep(4000);
                     Process.GetProcesses().Where(pp => pp.ProcessName.Contains("WerFault")).ToList().ForEach(p => {
                         p.Kill();
                         Tasky.Run(() => Killed?.Invoke());
+                        //Console.WriteLine($"[WerFault] {p.ProcessName} has been killed.");
                     });
                 }
             }

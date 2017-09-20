@@ -67,6 +67,9 @@ namespace nucs.Filesystem {
             return new FileInfo(list.PathCombine());
         }
 
+        public static DirectoryInfo PathCombineSubdirectory(this DirectoryInfo @this, string path) {
+            return new DirectoryInfo(Path.Combine(@this.FullName, path));
+        }
         /// <summary>
         ///     An IEnumerable&lt;string&gt; extension method that combine all value to return a path.
         /// </summary>
