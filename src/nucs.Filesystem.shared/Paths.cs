@@ -175,7 +175,17 @@ namespace nucs.Filesystem {
                         path = Path.GetFullPath(new Uri(path).LocalPath);
                     } catch {}
             }
+            //is root, fix.
+            if (path.Length == 2 && path[1] == ':' && char.IsLetter(path[0]) && char.IsUpper(path[0]))
+                path = path + "\\";
+
             return path;
         }
+
+        /// <summary>
+        ///     Removes or replaces all illegal characters for path in a string.
+        /// </summary>
+        public static string RemoveIllegalPathCharacters(string filename, string replacewith = "") => string.Join(replacewith, filename.Split(Path.GetInvalidFileNameChars()));
+
     }
 }

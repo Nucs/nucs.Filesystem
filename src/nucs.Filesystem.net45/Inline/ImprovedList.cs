@@ -174,7 +174,7 @@ namespace nucs.Collections {
         /// <param name="comparer">The comparator for indentifying the wanted item</param>
         /// <param name="timeout">The time in milliseconds to wait. set it to -1 for infinite</param>
         /// <returns></returns>
-        internal T WaitFor(CompareItems comparer, int timeout = -1) { //todo test it
+        internal T WaitFor(CompareItems comparer, int timeout = -1) { 
             T res = default(T); //ignore default(T), it doesnt matter anyway
             var firstOrDefault = this.FirstOrDefault(t=>comparer(t));
             if (firstOrDefault != null && firstOrDefault.Equals(default(T)) == false)

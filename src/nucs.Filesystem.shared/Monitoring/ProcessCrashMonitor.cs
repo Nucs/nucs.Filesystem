@@ -10,7 +10,8 @@ namespace nucs.Filesystem.Monitoring {
     /// <summary>
     ///     Monitor a process crashing
     /// </summary>
-    public class ProcessCrashMonitor {
+    public class ProcessCrashMonitor : IDisposable {
+        public Func<Process, bool> AdditionalCheck { get; set; }
         private string lasttitle = "";
 
         static ProcessCrashMonitor() {
@@ -21,7 +22,9 @@ namespace nucs.Filesystem.Monitoring {
         ///     Hunts for a specific process
         /// </summary>
         /// <param name="id">The ID of the process found in Process.Id</param>
-        public ProcessCrashMonitor(int id) {
+        /// <param name="additionalCheck"></param>
+        public ProcessCrashMonitor(int id, Func<Process, bool> additionalCheck = null) {
+            AdditionalCheck = additionalCheck;
             if (id <= 0)
                 throw new ArgumentException(nameof(id));
             var proc = Process.GetProcesses().FirstOrDefault(p => p.Id == id);
@@ -35,7 +38,9 @@ namespace nucs.Filesystem.Monitoring {
         ///     Hunts for a specific process
         /// </summary>
         /// <param name="id">The ID of the process found in Process.Id</param>
-        public ProcessCrashMonitor(Process proc) {
+        /// <param name="additionalCheck"></param>
+        public ProcessCrashMonitor(Process proc, Func<Process, bool> additionalCheck=null) {
+            AdditionalCheck = additionalCheck;
             _load(proc);
         }
 
@@ -43,7 +48,9 @@ namespace nucs.Filesystem.Monitoring {
         ///     Hunts for a specific process
         /// </summary>
         /// <param name="id">The ID of the process found in Process.Id</param>
-        public ProcessCrashMonitor(FileInfo file) {
+        /// <param name="additionalCheck"></param>
+        public ProcessCrashMonitor(FileInfo file, Func<Process, bool> additionalCheck = null) {
+            AdditionalCheck = additionalCheck;
             if (file == null || !System.IO.File.Exists(file.FullName))
                 throw new ArgumentNullException(nameof(file));
             var active = new ActiveProcessFiles().Enumerate(info => info.CompareTo(file));
@@ -52,23 +59,28 @@ namespace nucs.Filesystem.Monitoring {
             else {
                 _load(active);
             }
-
-
         }
 
         private void _load(Process proc) {
-            File = new FileInfo(ProcessExecutablePath(proc));
-            Name = proc.ProcessName;
-            Id = proc.Id;
-            if (this.HasStopped)
-            Thread = new Thread(Monitor);
-            Thread.Start(this);
+            lock (this) {
+                if (_cancel == null)
+                    _cancel = new CancellationTokenSource();
+                var path = ProcessExecutablePath(proc);
+                if (string.IsNullOrEmpty(path) == false)
+                    File = new FileInfo(path);
+                Name = proc.ProcessName;
+                Id = proc.Id;
+                this.Thread = new Thread(Monitor);
+                this.Thread.Start(this);
+            }
         }
+
+        private CancellationTokenSource _cancel { get; set; }
 
         /// <summary>
         ///     Has Stop() been called, if thread has already stopped it will be true.
         /// </summary>
-        public bool IsStopping { get; private set; }
+        public bool IsStopping => _cancel.IsCancellationRequested;
 
         /// <summary>
         ///     Once stopped and thread is dead, its true
@@ -90,11 +102,12 @@ namespace nucs.Filesystem.Monitoring {
         /// </summary>
         public Process RetrieveProcess {
             get {
-                try {
-                    return Process.GetProcessById(Id);
-                } catch {
-                    return null;
-                }
+                lock (this)
+                    try {
+                        return Process.GetProcessById(Id);
+                    } catch {
+                        return null;
+                    }
             }
         }
 
@@ -105,12 +118,14 @@ namespace nucs.Filesystem.Monitoring {
 
         public string Title {
             get {
-                var p = RetrieveProcess;
-                var tit = p.MainModule.FileVersionInfo.FileDescription;
-                if (tit == "")
-                    tit = p.ProcessName;
-                lasttitle = tit;
-                return lasttitle;
+                lock (this) {
+                    var p = RetrieveProcess;
+                    var tit = p.MainModule.FileVersionInfo.FileDescription;
+                    if (tit == "")
+                        tit = p.ProcessName;
+                    lasttitle = tit;
+                    return lasttitle;
+                }
             }
         }
 
@@ -122,54 +137,74 @@ namespace nucs.Filesystem.Monitoring {
         /// <summary>
         ///     Called after the process has been restarted.
         /// </summary>
-        public event Action<Process> ProcessCrashed;
+        public event Action<ProcessCrashMonitor, Process> ProcessCrashed;
 
         /// <summary>
         ///     When process crashed and a new one has started.
         /// </summary>
-        public event Action<Process> ProcessRebound;
+        public event Action<ProcessCrashMonitor, Process> ProcessRebound;
 
         /// <summary>
         ///     Signals the thread to stop.
         /// </summary>
         public void Stop() {
-            IsStopping = true;
+            _cancel.Cancel(false);
         }
 
         /// <summary>
         /// Tries to open from the existing 
         /// </summary>
         public void OpenIfClosed() {
-            if (Id == 0) {
-                var proc = Process.Start(File.FullName);
-                _load(proc);
+            lock (this) {
+                if (RetrieveProcess == null) {
+                    var proc = Process.Start(File.FullName);
+                    proc.WaitForInputIdle();
+                    while (!proc.Responding) Thread.Sleep(10);
+                    _load(proc);
+                }
             }
         }
 
         public void Open() {
-            if (Id == 0) {
+            lock (this) {
                 var proc = Process.Start(File.FullName);
+                proc.WaitForInputIdle();
+                while (!proc.Responding) Thread.Sleep(10);
+                Stop();
                 _load(proc);
             }
         }
 
         private void Monitor(object o) {
-            var parent = o as ProcessCrashMonitor;
+            if (o == null) throw new ArgumentNullException(nameof(o));
+            var parent = (ProcessCrashMonitor) o;
+            var stopsource = parent._cancel;
+            if (stopsource == null)
+                throw new InvalidOperationException();
+            bool _isStopping() => stopsource.IsCancellationRequested;
+
             var proc = RetrieveProcess;
+
             while (true) {
-                if (IsStopping) {
+                if (_isStopping()) {
                     break;
                 }
+                if (proc == null)
+                    goto _rebind;
                 _rewait:
-                if (!proc.WaitForExit(100)) {
-                    if (IsStopping)
+                if (!proc.WaitForExit(100) && parent.AdditionalCheck?.Invoke(proc) != true) {
+                    if (_isStopping())
                         break;
                     goto _rewait;
                 }
-                if (IsStopping)
+                if (_isStopping())
                     break;
-
-                ProcessCrashed?.Invoke(proc);
+                _rebind:
+                if (proc?.HasExited == false) {
+                    try {proc.Kill();} catch {}
+                    try {proc.Kill();} catch {}
+                }
+                ProcessCrashed?.Invoke(parent, proc);
                 //bind to new thread
                 Process np;
                 while ((np = Process.GetProcesses().FirstOrDefault(p => p.ProcessName == this.Name && ProcessExecutablePath(p).Equals(File.FullName, StringComparison.InvariantCultureIgnoreCase))) == null) {
@@ -178,7 +213,7 @@ namespace nucs.Filesystem.Monitoring {
                 proc = np;
                 Name = np.ProcessName;
                 Id = np.Id;
-                ProcessRebound?.Invoke(proc);
+                ProcessRebound?.Invoke(parent, proc);
             }
         }
 
@@ -202,5 +237,14 @@ namespace nucs.Filesystem.Monitoring {
 
             return "";
         }
+
+        #region Implementation of IDisposable
+
+        /// <summary>Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.</summary>
+        public void Dispose() {
+            Stop();
+        }
+
+        #endregion
     }
 }
